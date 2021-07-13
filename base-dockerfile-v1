@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+ARG version=""
+LABEL author="parjun8840"
+LABEL version=$version
+LABEL description="This provides python3.9 with Flask and Jinja2"
+RUN apt-get update && apt-get install --no-install-recommends -y python3.9 python3.9-dev python3-pip vim && rm -rf /var/lib/apt/lists
+RUN python3.9 -m pip install Jinja2==2.11.2 Flask==1.1.2
+RUN useradd --user-group --system --create-home --no-log-init app 
+COPY --chown=app:app application01/ /opt/application01 
+USER app
+CMD ["python3.9","/opt/application01/app.py"]
